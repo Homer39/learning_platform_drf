@@ -1,7 +1,7 @@
 __all__ = [
     'CourseSerializer',
-    'SubjectSerializer'
+    'LessonSerializer'
 ]
 
 from materials.serializers.course import CourseSerializer
-from materials.serializers.subject import SubjectSerializer
+from materials.serializers.lesson import LessonSerializer

@@ -1,7 +1,7 @@
 __all__ = [
     'Course',
-    'Subject'
+    'Lesson'
 ]
 
 from materials.models.course import Course
-from materials.models.subject import Subject
+from materials.models.lesson import Lesson

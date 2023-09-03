@@ -5,5 +5,6 @@ from materials.serializers import CourseSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """Просмотр курса"""
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
