@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from materials.models import Course
@@ -13,6 +14,7 @@ class Lesson(models.Model):
 
     course = models.ForeignKey(Course, verbose_name="курс", **NULLABLE, on_delete=models.CASCADE,
                                related_name="lesson")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, **NULLABLE, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.title}'

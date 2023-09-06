@@ -1,10 +1,32 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Course
 from materials.serializers import CourseSerializer
+from materials.services.permissions import IsOwner, IsStaff
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     """Просмотр курса"""
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+
+    def get_permissions(self):
+        """Права доступа"""
+        if self.action == 'retrive':
+            permission_classes = [IsAuthenticated, IsOwner | IsStaff]
+        elif self.action == 'create':
+            permission_classes = [IsAuthenticated, IsStaff]
+        elif self.action == 'destroy':
+            permission_classes = [IsAuthenticated, IsOwner, IsStaff]
+        elif self.action == 'update':
+            permission_classes = [IsAuthenticated, IsOwner | IsStaff]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+
