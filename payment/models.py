@@ -1,6 +1,7 @@
+from django.conf import settings
 from django.db import models
 
-from config import settings
+
 from materials.models import Course, Lesson
 from users.models import NULLABLE
 
@@ -22,6 +23,9 @@ class Payment(models.Model):
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='Оплаченый урок', **NULLABLE)
     payment_amount = models.IntegerField(verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD, verbose_name='Способ оплаты')
+
+    def __str__(self):
+        return f"{self.user} - {self.paid_course}"
 
     class Meta:
         verbose_name = 'Платеж'
