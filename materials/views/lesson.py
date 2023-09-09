@@ -1,5 +1,4 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
 from materials.models import Lesson
 from materials.serializers import LessonSerializer
 from materials.services.permissions import IsOwner, IsStaff
@@ -9,13 +8,12 @@ class LessonListAPIView(generics.ListAPIView):
     """Просмотр уроков"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated]
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
     """Создание урока"""
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated, IsStaff]
+    permission_classes = [IsStaff]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()
@@ -27,17 +25,17 @@ class LessonDetailAPIView(generics.RetrieveAPIView):
     """Просмотр определенного курса"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsOwner | IsStaff]
+    permission_classes = [IsOwner | IsStaff]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
     """Обновление урока"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsOwner | IsStaff]
+    permission_classes = [IsOwner | IsStaff]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     """Удаление урока"""
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsOwner, IsStaff]
+    permission_classes = [IsOwner | IsStaff]
