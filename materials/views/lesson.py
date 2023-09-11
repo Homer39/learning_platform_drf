@@ -1,4 +1,6 @@
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+
 from materials.models import Lesson
 from materials.serializers import LessonSerializer
 from materials.services.permissions import IsOwner, IsStaff
@@ -13,7 +15,7 @@ class LessonListAPIView(generics.ListAPIView):
 class LessonCreateAPIView(generics.CreateAPIView):
     """Создание урока"""
     serializer_class = LessonSerializer
-    permission_classes = [IsStaff]
+    permission_classes = [IsAuthenticated | IsStaff]
 
     def perform_create(self, serializer):
         new_lesson = serializer.save()

@@ -16,7 +16,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             permission_classes = [IsOwner | IsStaff]
         elif self.action == 'create':
-            permission_classes = [IsStaff]
+            permission_classes = [IsAuthenticated | IsStaff]
         elif self.action == 'destroy':
             permission_classes = [IsOwner | IsStaff]
         elif self.action == 'update':
@@ -26,7 +26,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(owner=self.request.user)
 
 
 
