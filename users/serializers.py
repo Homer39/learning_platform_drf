@@ -19,3 +19,11 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "email", "first_name", "last_name", "city", "avatar", "payments_history"]
+
+
+class UserLimitSerializer(serializers.ModelSerializer):
+    """Сериализатор выводит информацию для сторонненго пользователя"""
+
+    class Meta:
+        model = User
+        exclude = ('last_name', 'password')

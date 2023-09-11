@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from materials.services.permissions import IsStaff, IsOwner
 from users.models import User
-from users.serializers import UserListSerializer, UserDe, UserDetailSerializer
+from users.serializers import UserListSerializer, UserDetailSerializer, UserLimitSerializer
 
 
 class UserViewSet(ModelViewSet):
@@ -15,8 +15,8 @@ class UserViewSet(ModelViewSet):
 
     def get_permissions(self):
         """Права доступа"""
-        if self.action == 'retrive':
-            permission_classes = [IsOwner | IsStaff]
+        if self.action == 'retrieve':
+            permission_classes = []
         elif self.action == 'create':
             permission_classes = [IsStaff]
         elif self.action == 'destroy':
@@ -31,5 +31,8 @@ class UserViewSet(ModelViewSet):
         """При выводе пользователя будет видна история платежей"""
         queryset = User.objects.all()
         user = get_object_or_404(queryset, pk=pk)
-        serializer = UserDetailSerializer(user)
+        if user == request.user or request.user.is_staff:
+            serializer = UserDetailSerializer(user)
+        else:
+            serializer = UserLimitSerializer
         return Response(serializer.data)
