@@ -13,7 +13,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """Права доступа"""
-        if self.action == 'retrive':
+        if self.action == 'retrieve':
             permission_classes = [IsOwner | IsStaff]
         elif self.action == 'create':
             permission_classes = [IsStaff]

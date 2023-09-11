@@ -11,7 +11,6 @@ class Command(BaseCommand):
             first_name='Staff',
             last_name= 'Learning_platform',
             is_staff=True,
-            is_superuser=False
         )
 
         user.set_password('1234')
