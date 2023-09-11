@@ -6,10 +6,10 @@ from users.models import User
 
 class UserListSerializer(serializers.ModelSerializer):
     """Сериализатор для списка пользователей"""
-
+    payments_history = PaymentSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ["id", "email", "first_name", "last_name", "city", "avatar"]
+        fields = ["id", "email", "first_name", "last_name", "city", "avatar", "payments_history"]
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -26,4 +26,4 @@ class UserLimitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        exclude = ('last_name', 'password')
+        fields = ["id", "email", "first_name", "city", "avatar"]

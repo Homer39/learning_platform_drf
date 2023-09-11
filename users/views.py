@@ -16,7 +16,7 @@ class UserViewSet(ModelViewSet):
     def get_permissions(self):
         """Права доступа"""
         if self.action == 'retrieve':
-            permission_classes = []
+            permission_classes = [IsAuthenticated]
         elif self.action == 'create':
             permission_classes = [IsStaff]
         elif self.action == 'destroy':
@@ -31,8 +31,8 @@ class UserViewSet(ModelViewSet):
         """При выводе пользователя будет видна история платежей"""
         queryset = User.objects.all()
         user = get_object_or_404(queryset, pk=pk)
-        if user == request.user or request.user.is_staff:
+        if user == request.user:
             serializer = UserDetailSerializer(user)
         else:
-            serializer = UserLimitSerializer
+            serializer = UserLimitSerializer(user)
         return Response(serializer.data)
