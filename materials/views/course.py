@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from materials.models import Course
 from materials.serializers import CourseSerializer
 from materials.services.permissions import IsOwner, IsStaff
-from paginators import CoursePaginator
+from materials.paginators import CoursePaginator
 
 
 class CourseViewSet(viewsets.ModelViewSet):
