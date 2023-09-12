@@ -4,12 +4,14 @@ from rest_framework.permissions import IsAuthenticated
 from materials.models import Course
 from materials.serializers import CourseSerializer
 from materials.services.permissions import IsOwner, IsStaff
+from paginators import CoursePaginator
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     """Просмотр курса"""
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    pagination_class = CoursePaginator
 
     def get_permissions(self):
         """Права доступа"""

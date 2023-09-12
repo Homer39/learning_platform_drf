@@ -4,12 +4,14 @@ from rest_framework.permissions import IsAuthenticated
 from materials.models import Lesson
 from materials.serializers import LessonSerializer
 from materials.services.permissions import IsOwner, IsStaff
+from paginators import LessonsPaginator
 
 
 class LessonListAPIView(generics.ListAPIView):
     """Просмотр уроков"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    pagination_class = LessonsPaginator
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
