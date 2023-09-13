@@ -11,6 +11,7 @@ class LessonListAPIView(generics.ListAPIView):
     """Просмотр уроков"""
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    permission_classes = [IsOwner | IsStaff]
     pagination_class = LessonsPaginator
 
 

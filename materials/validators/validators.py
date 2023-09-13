@@ -9,5 +9,6 @@ class LinkValidator:
 
     def __call__(self, value):
         """Можно добавлять только сслыки на youtube"""
-        if 'www.youtube' not in value:
+        video_link = value.get('video_link')
+        if video_link != None and 'www.youtube' not in video_link:
             raise serializers.ValidationError('Допустимы ссылки только на youtube')

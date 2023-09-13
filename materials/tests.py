@@ -48,8 +48,8 @@ class LessonTestCase(APITestCase):
         self.assertEqual(
             response.json(),
             {'count': 1, 'next': None, 'previous': None, 'results': [
-                {'id': 2, 'course': None, 'title': 'list test', 'description': 'list test description', 'preview': None,
-                 'video_link': None, 'owner': 2}]}
+                {'id': 4, 'course': None, 'title': 'list test', 'description': 'list test description', 'preview': None,
+                 'video_link': None, 'owner': 3}]}
         )
 
     def test_create_lesson(self):
@@ -59,8 +59,7 @@ class LessonTestCase(APITestCase):
         data = {
             'title': 'test',
             'description': 'test description',
-            'course': self.course.title,
-            'owner': self.user
+            'course': self.course.title
         }
 
         response = self.client.post(
@@ -82,11 +81,11 @@ class LessonTestCase(APITestCase):
         """Тестирование обновления"""
         self.client.force_authenticate(self.user)
         data = {
-            'name': 'test lesson updated',
+            'title': 'test lesson updated',
         }
 
         response = self.client.patch(
-            reverse("courses:lesson-update", kwargs={'pk': self.lesson.id}),
+            reverse("materials:lesson-update", kwargs={'pk': self.lesson.id}),
             data=data
         )
 
@@ -95,8 +94,9 @@ class LessonTestCase(APITestCase):
             status.HTTP_200_OK
         )
         # Check updated name
+
         self.assertEqual(
-            Lesson.objects.get(pk=1).name,
+            Lesson.objects.get(pk=self.lesson.id).title,
             'test lesson updated'
         )
 
@@ -104,7 +104,7 @@ class LessonTestCase(APITestCase):
         """Тестирование удаления урока"""
         self.client.force_authenticate(self.user)
         response = self.client.delete(
-            reverse("courses:lesson-delete", kwargs={'pk': self.lesson.id})
+            reverse("materials:lesson-delete", kwargs={'pk': self.lesson.id})
         )
 
         self.assertEqual(
