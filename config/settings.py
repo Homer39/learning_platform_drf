@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
 
+    'drf_yasg',
     'users',
     'materials',
     'payment',
@@ -147,3 +148,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
+
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')

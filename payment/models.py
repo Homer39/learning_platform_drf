@@ -24,6 +24,8 @@ class Payment(models.Model):
     payment_amount = models.IntegerField(verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD, verbose_name='Способ оплаты')
 
+    payment_id = models.CharField(max_length=100, verbose_name="payment_id",
+                                  **NULLABLE)
     def __str__(self):
         return f"{self.user} - {self.paid_course}"
 
