@@ -6,6 +6,8 @@ from materials.serializers import CourseSerializer
 from materials.services.permissions import IsOwner, IsStaff
 from materials.paginators import CoursePaginator
 
+from materials.tasks import _send_email
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     """Просмотр курса"""
@@ -29,6 +31,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        updated_course = serializer.save()
+        _send_email.delay(updated_course.pk)
 
 
 
