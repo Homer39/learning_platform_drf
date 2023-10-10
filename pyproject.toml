@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["vlad <sapozhnikov.061098@mail.ru>"]
 readme = "README.md"
-packages = [{include = "learning_platform_drf"}]
+packages = [{ include = "learning_platform_drf" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
