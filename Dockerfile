@@ -2,9 +2,11 @@ FROM python:3.11
 
 WORKDIR /code
 
-COPY ./pyproject.toml /code/pyproject.toml
+COPY ./pyproject.toml /code/
 
 RUN pip install poetry
+
+RUN poetry install
 
 COPY . .
 
