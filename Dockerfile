@@ -7,3 +7,5 @@ COPY ./pyproject.toml /code/pyproject.toml
 RUN pip install poetry
 
 COPY . .
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
