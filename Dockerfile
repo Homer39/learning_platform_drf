@@ -4,6 +4,6 @@ WORKDIR /code
 
 COPY ./pyproject.toml /code/pyproject.toml
 
-poetry install
+RUN pip install poetry
 
 COPY . .
