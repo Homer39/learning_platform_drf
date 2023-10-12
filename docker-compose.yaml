@@ -1,0 +1,56 @@
+version: "3.10"
+
+services: # Подключаемые сервисы
+
+  # Redis
+  redis:
+    image: redis
+    ports:
+      - "6380:6379"
+
+# База данных
+  db:
+    image: postgres # Название образа базы данных
+    env_file: # Файл с данными закрытый
+      - .env
+    environment: # Файл с данными публичный
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports: # Порт БД
+      - '5434:5432'
+    healthcheck: # Проверка подключения БД
+      test: [ "CMD-SHELL", "pg_isready -d postgres -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app: # Приложение
+    build: . # Собираем образ из текущей директории
+    tty: true # Дает возможность использовать команды терминала
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on: # Пока не собирется БД, не будет запускаться приложение
+      db:
+        condition: service_healthy
+
+  celery: # Запуск celery
+      build: . # Откуда
+      tty: true
+      command: celery -A config worker -l INFO
+      depends_on:
+        - redis
+        - app
+
+  celery-beat:
+    build: .
+    tty: true
+    command: celery -A config beat -l INFO -S django
+    depends_on:
+      - redis
+      - app
+volumes:
+  pg_data:
